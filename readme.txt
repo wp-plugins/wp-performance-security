@@ -56,9 +56,15 @@ This plugin provides settings to modify WordPress and improve performance and se
 * Disable detailed login errors
 
 ## In development...
-We're working on adding the following features to the plugin:
+We're working to add the following features to the plugin:
+
+* Google Analytics tracking
 * Scheduled trash cleanup
 * .htaccess modification for security and compression
+
+If you have further suggestions, please contact us via the [plugin support page](https://wordpress.org/support/plugin/wp-performance-security).
+
+If you find this plugin it useful to manage your WordPress settings, please [review the plugin](https://wordpress.org/support/view/plugin-reviews/wp-performance-security).
 
 == Installation ==
 
