@@ -251,7 +251,7 @@
 										<input type="checkbox" name="output_compression" value="1" <?php checked( $config['output_compression'], 1 ); ?>>
 										<span>Enable GZIP compression</span>
 									</label>
-									<p class="description"><strong>Warning:</strong> this can sometimes interfere with plugins. You can often enable GZIP compression from cPanel or Plesk, or request activation from your website hosting company.</p>
+									<p class="description"><strong>Warning:</strong> this can sometimes interfere with other plugins. You can often enable GZIP compression from cPanel or Plesk, or request activation from your website hosting company.</p>
 								</fieldset>
 							</td>  
 						</tr>
@@ -268,7 +268,7 @@
 										<input type="checkbox" name="wpps_self_ping" value="1" <?php checked( $config['wpps_self_ping'], 1 ); ?>>
 										<span>Disable self-ping</span>
 									</label>
-									<p class="description">Stops WordPress from registering links from within your site with ‘pings’</p>
+									<p class="description">Stops WordPress from registering internal links as ‘pings’.</p>
 								</fieldset>
 							</td>  
 						</tr>
@@ -302,7 +302,7 @@
 										<input type="checkbox" name="wpps_jetpack_devicepx" value="1" <?php checked( $config['wpps_jetpack_devicepx'], 1 ); ?>>
 										<span>Remove <code>devicepx</code> script</span>
 									</label>
-									<p class="description">Jetpack includes a script called <code>devicepx</code> that handles support for retina/HiDPI versions of files  such as Gravatars. Remove if unnecessary.</p>
+									<p class="description">The Jetpack plugin includes a script called <code>devicepx</code> that handles support for retina/HiDPI versions of files  such as Gravatars. Remove if unnecessary.</p>
 								</fieldset>
 							</td>
 						</tr>
@@ -366,24 +366,26 @@
 										<span>Disable comments</span>
 									</label>
 								</fieldset>
-								<fieldset>
-									<label>
-										<input type="checkbox" name="filter_media_comment_status" value="1" <?php checked( $config['filter_media_comment_status'], 1 ); ?>>
-										<span>Disable comments on media files</span>
-									</label>
-								</fieldset>
-								<fieldset>
-									<label>
-										<input type="checkbox" name="wpps_clickable_comments" value="1" <?php checked( $config['wpps_clickable_comments'], 1 ); ?>>
-										<span>Disable active links in comments</span>
-									</label>
-								</fieldset>
-								<fieldset>
-									<label>
-										<input type="checkbox" name="wpps_comment_url" value="1" <?php checked( $config['wpps_comment_url'], 1 ); ?>>
-										<span>Remove the ‘URL’ field from the comments form</span>
-									</label>
-								</fieldset>								
+								<div class="wpps_menu_comments_sub">
+									<fieldset>
+										<label>
+											<input type="checkbox" name="wpps_media_comment_status" value="1" <?php checked( $config['wpps_media_comment_status'], 1 ); ?>>
+											<span>Disable comments on media files</span>
+										</label>
+									</fieldset>
+									<fieldset>
+										<label>
+											<input type="checkbox" name="wpps_clickable_comments" value="1" <?php checked( $config['wpps_clickable_comments'], 1 ); ?>>
+											<span>Disable active links in comments</span>
+										</label>
+									</fieldset>
+									<fieldset>
+										<label>
+											<input type="checkbox" name="wpps_comment_url" value="1" <?php checked( $config['wpps_comment_url'], 1 ); ?>>
+											<span>Remove the ‘URL’ field from the comments form</span>
+										</label>
+									</fieldset>
+								</div>							
 							</td>
 						</tr>
 					</table>

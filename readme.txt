@@ -13,7 +13,8 @@ This plugin provides settings to modify WordPress and improve performance and se
 
 This plugin provides settings to modify WordPress and improve performance and security.
 
-## General settings
+**General settings**
+
 * Modify excerpt length, the "More" text, and allow excerpts on Pages
 * Change the "Read more" settings, so that the anchors to articles don't jump
 * Modify custom post types so that they appear in search results and RSS feeds
@@ -26,13 +27,15 @@ This plugin provides settings to modify WordPress and improve performance and se
 * Enable HTML5 support for forms, comment lists, images and captions.
 * Disable auto-formatting of content and/or excerpts
 
-## Performance
+**Performance**
+
 * Enable GZIP on Apache
 * Disable WordPress pings from internal links
 * Remove the version query string on styles and scripts
 * Remove the JetPack plugin `devicepx` script
 
-## Security
+**Security**
+
 * Remove the WordPress version string
 * Modify XMLRPC features - disable entirely and/or disable XMLRPC SSL testing
 * Comment modifications:
@@ -41,7 +44,8 @@ This plugin provides settings to modify WordPress and improve performance and se
 	- Disable links in comments
 	- Remove the 'URL' field from the comments form
 
-## Administration
+**Administration**
+
 * Show statistics in the Admin section
 * Change the WordPress greeting, even for non US English installs
 * Remove the 'Open Sans' Google webfont from Admin
@@ -49,13 +53,15 @@ This plugin provides settings to modify WordPress and improve performance and se
 * Remove menu items
 * Include the "All Settings" menu item
 
-## Login
+**Login**
+
 * Change the login page logo
 * Change the login page logo URL
 * Change the login page logo URL title
 * Disable detailed login errors
 
-## In development...
+**In development...**
+
 We're working to add the following features to the plugin:
 
 * Google Analytics tracking

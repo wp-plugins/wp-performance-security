@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: WP Performance & Security
- * Plugin URI: https://imaginarymedia.com.au/resources/plugins/wp-performance-security/
+ * Plugin URI: https://imaginarymedia.com.au/projects/wp-perf-sec/
  * Description: A plugin with a range of performance and security enhancements
  * Version: 0.1
  * Author: Imaginary Media
@@ -56,7 +56,7 @@ function wpps_activate(){
 	$wpps_options['wpps_auto_content'] = 1;
 	$wpps_options['wpps_auto_excerpt'] = 1;
 	$wpps_options['wpps_clickable_comments'] = 1;
-	$wpps_options['filter_media_comment_status'] = 1;
+	$wpps_options['wpps_media_comment_status'] = 1;
 	$wpps_options['wpps_closeCommentsGlobaly'] = 1;
 	$wpps_options['wpps_comment_url'] = 1;
 	$wpps_options['wpps_jetpack_devicepx'] = 1;
@@ -329,15 +329,15 @@ function wpps_init() {
 	}
 
 	// Disable comments on media files
-	function filter_media_comment_status( $open, $post_id ) {
+	function wpps_media_comment_status( $open, $post_id ) {
 		$post = get_post( $post_id );
 		if( $post->post_type == 'attachment' ) {
 			return false;
 		}
 		return $open;
 	}
-	if( $config['filter_media_comment_status'] == 1 ){
-		add_filter( 'comments_open', 'filter_media_comment_status', 10 , 2 );
+	if( $config['wpps_media_comment_status'] == 1 ){
+		add_filter( 'comments_open', 'wpps_media_comment_status', 10 , 2 );
 	}
 
 	// Close comments globally

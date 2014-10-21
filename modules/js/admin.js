@@ -18,9 +18,21 @@ jQuery(document).ready(function(e){
 			e('.wpps_menu_wp_sub input').removeAttr('disabled');
 		}
 	});
+
+	e('input[name="wpps_closeCommentsGlobaly"]').on('change', function(){
+		if(e(this).prop('checked')) {
+			e('.wpps_menu_comments_sub input').attr('disabled','disabled');
+		} else {
+			e('.wpps_menu_comments_sub input').removeAttr('disabled');
+		}
+	});
 	
-	// Initial
+	// Initialise checkbox groups
 	if(e('input[name="wpps_menu_wp"]').prop('checked')) {
 		e('.wpps_menu_wp_sub input').attr('disabled','disabled');
+	}
+
+	if(e('input[name="wpps_closeCommentsGlobaly"]').prop('checked')) {
+		e('.wpps_menu_comments_sub input').attr('disabled','disabled');
 	}
 });
