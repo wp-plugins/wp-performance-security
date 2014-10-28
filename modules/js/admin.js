@@ -26,6 +26,14 @@ jQuery(document).ready(function(e){
 			e('.wpps_menu_comments_sub input').removeAttr('disabled');
 		}
 	});
+
+	e('input[name="wpps_ga_insert"]').on('change', function(){
+		if(e(this).prop('checked')) {
+			e('.wpps_ga_sub input').removeAttr('disabled');
+		} else {
+			e('.wpps_ga_sub input').attr('disabled','disabled');
+		}
+	});
 	
 	// Initialise checkbox groups
 	if(e('input[name="wpps_menu_wp"]').prop('checked')) {
@@ -34,5 +42,9 @@ jQuery(document).ready(function(e){
 
 	if(e('input[name="wpps_closeCommentsGlobaly"]').prop('checked')) {
 		e('.wpps_menu_comments_sub input').attr('disabled','disabled');
+	}
+
+	if(!e('input[name="wpps_ga_insert"]').prop('checked')) {
+		e('.wpps_ga_sub input').attr('disabled','disabled');
 	}
 });

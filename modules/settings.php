@@ -56,12 +56,13 @@
 				<a href="#tabs-3" class="nav-tab">Security</a>
 				<a href="#tabs-4" class="nav-tab">Administration</a>
 				<a href="#tabs-5" class="nav-tab">Login</a>
+				<a href="#tabs-6" class="nav-tab">Google Analytics</a>
 			</h2>
 
 			<div class="wpps-settings">
 
 				<div id="tabs-1" class="tab-content">
-					
+
 					<table class="form-table">
 						<tr>
 							<th scope="row">Excerpts</th>
@@ -385,6 +386,12 @@
 											<span>Remove the ‘URL’ field from the comments form</span>
 										</label>
 									</fieldset>
+									<fieldset>
+										<label>
+											<input type="number" class="small-text" min="0" name="wpps_minimum_comment_length" value="<?php echo $config['wpps_minimum_comment_length']; ?>">
+											<span>Minimum number of characters required in a comment</span>
+										</label>
+									</fieldset>
 								</div>							
 							</td>
 						</tr>
@@ -395,6 +402,22 @@
 				</div>
 
 				<div id="tabs-4" class="tab-content">
+
+					<table class="form-table">
+						<tr>
+							<th scope="row">Admin Bar</th>
+							<td>
+								<fieldset>
+									<label>
+										<input type="checkbox" name="wpps_admin_bar" value="1" <?php checked( $config['wpps_admin_bar'], 1 ); ?>>
+										<span>Hide the Admin bar from front-facing pages</span>
+									</label>
+								</fieldset>
+							</td>
+						</tr>
+					</table>
+
+					<hr>					
 
 					<table class="form-table">
 						<tr>
@@ -623,6 +646,75 @@
 					</table>
 
 					<hr>
+
+				</div>
+
+				<div id="tabs-6" class="tab-content">
+
+					<table class="form-table">
+						<tr>
+							<th scope="row">Google Analytics</th>
+							<td>
+								<p><a href="http://www.google.com/analytics/" rel="nofollow">Google Analytics</a> is powerful tracking and reporting feature for websites</p>
+								<p>The following setttings will allow you to embed your Google tracking code on your WordPress site. Most users will only need to know their tracking code and whether they are using the new Universal Analytics tracking code or the old classic tracking code.</p>
+								<p>Note, you must be using the Universal Analytics tracking code (on your site and set in your property within Google Analytics) before you can use the advanced features.</p>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">Enable</th>
+							<td>
+								<fieldset>
+									<label>
+										<input type="checkbox" name="wpps_ga_insert" value="1" <?php checked( $config['wpps_ga_insert'], 1 ); ?>>
+										<span>Add Google Analytics tracking code</span>
+									</label>
+								</fieldset>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">Tracking ID</th>
+							<td>
+								<fieldset class="wpps_ga_sub">
+									<label>Google Analytics Tracking ID: 
+										<input type="text" class="regular-text" name="wpps_ga_id" value="<?php echo $config['wpps_ga_id']; ?>" required placeholder="UA-123456-78">
+									</label>
+									<p class="description"><strong>Note:</strong> You <em>must</em> include the correct tracking ID for your site.</p>
+								</fieldset>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">Universal Analytics</th>
+							<td>
+								<fieldset class="wpps_ga_sub">
+									<label>
+										<input type="checkbox" name="wpps_ga_universal" value="1" <?php checked( $config['wpps_ga_universal'], 1 ); ?>>
+										<span>Use ‘Universal Analytics’ code</span>
+									</label>
+									<p class="description"><strong>Warning:</strong> Do not use this code until your Google Analytics property has been transferred to Universal Analytics. <a href="https://developers.google.com/analytics/devguides/collection/upgrade/guide" rel="nofollow">Learn more.</a></p>
+								</fieldset>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">Advanced Features</th>
+							<td>
+								<fieldset class="wpps_ga_sub wpps_ga_uni_sub">
+									<label>
+										<input type="checkbox" name="wpps_ga_ssl" value="1" <?php checked( $config['wpps_ga_ssl'], 1 ); ?>>
+										<span>Force SSL</span>
+									</label>
+									<p class="description">Send all data using SSL, even from insecure (HTTP) pages.</p>
+								</fieldset>
+								<br>
+								<fieldset class="wpps_ga_sub wpps_ga_uni_sub">
+									<label>
+										<input type="checkbox" name="wpps_ga_display" value="1" <?php checked( $config['wpps_ga_display'], 1 ); ?>>
+										<span>Enable ‘Display Features’ plugin</span>
+									</label>
+									<p class="description">The display features plugin can be used to enable Advertising Features in Google Analytics, such as Remarketing, Demographics and Interest Reporting, and more. <a href="https://support.google.com/analytics/answer/3450482" rel="nofollow">Learn more.</a></p>
+								</fieldset>
+							</td>
+						</tr>
+					</table>
 
 				</div>
 

@@ -3,7 +3,7 @@ Contributors: imaginarymedia
 Tags: performance, security, settings
 Requires at least: 3.0.1
 Tested up to: 4.0
-Stable tag: 0.1
+Stable tag: 0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,7 +64,6 @@ This plugin provides settings to modify WordPress and improve performance and se
 
 We're working to add the following features to the plugin:
 
-* Google Analytics tracking
 * Scheduled trash cleanup
 * .htaccess modification for security and compression
 
@@ -82,3 +81,8 @@ If you find this plugin it useful to manage your WordPress settings, please [rev
 
 = 0.1 =
 * Initial launch
+
+= 0.2 =
+* Added support for adding Google Analytics tracking code
+* Added a toggle to remove the admin bar from front-facing pages
+* Added a setting to enforce and set the minimum number of characters required in a comment

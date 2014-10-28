@@ -3,7 +3,7 @@
  * Plugin Name: WP Performance & Security
  * Plugin URI: https://imaginarymedia.com.au/projects/wp-perf-sec/
  * Description: A plugin with a range of performance and security enhancements
- * Version: 0.1
+ * Version: 0.2
  * Author: Imaginary Media
  * Author URI: https://imaginarymedia.com.au/
  * License: GPL2
@@ -55,10 +55,17 @@ function wpps_activate(){
 	$wpps_options['wpps_replace_howdy'] = 'Welcome, ';
 	$wpps_options['wpps_auto_content'] = 1;
 	$wpps_options['wpps_auto_excerpt'] = 1;
+
+	//Admin Bar
+	$wpps_options['wpps_admin_bar'] = 0;
+	
+	// Comments
 	$wpps_options['wpps_clickable_comments'] = 1;
 	$wpps_options['wpps_media_comment_status'] = 1;
 	$wpps_options['wpps_closeCommentsGlobaly'] = 1;
 	$wpps_options['wpps_comment_url'] = 1;
+	$wpps_options['wpps_minimum_comment_length'] = 0;
+	
 	$wpps_options['wpps_jetpack_devicepx'] = 1;
 
 	// Login Options
@@ -95,6 +102,13 @@ function wpps_activate(){
 	$wpps_options['wpps_menu_feedback'] = 0;
 	$wpps_options['wpps_menu_site'] = 0;
 
+	// Google Analytics options
+	$wpps_options['wpps_ga_insert'] = 0;
+	$wpps_options['wpps_ga_id'] = '';
+	$wpps_options['wpps_ga_universal'] = 1;
+	$wpps_options['wpps_ga_ssl'] = 0;
+	$wpps_options['wpps_ga_display'] = 0;
+
 	update_option('wpps_options', $wpps_options );
 }
 register_activation_hook( __FILE__, 'wpps_activate' );
@@ -105,10 +119,16 @@ function wpps_init() {
 	// Get settings
 	$config = get_option('wpps_options');
 
+	// Hide the admin bar from front-facing pages
+	if( $config['wpps_admin_bar'] == 1 ){
+		add_filter('show_admin_bar', '__return_false');
+	}
+
 	// Remove Jetpack devicepx script
 	function wpps_dequeue_devicepx() {
 		wp_dequeue_script( 'devicepx' );
 	}
+	
 	if( $config['wpps_jetpack_devicepx'] == 1 ){
 		add_action( 'wp_enqueue_scripts', 'wpps_dequeue_devicepx', 20 );
 	}
@@ -341,13 +361,34 @@ function wpps_init() {
 	}
 
 	// Close comments globally
-	function wpps_closeCommentsGlobaly($data) { return false; }
+	function wpps_closeCommentsGlobaly($data) {
+		return false;
+	}
+	
 	if( $config['wpps_closeCommentsGlobaly'] == 1 ){
 		add_filter('comments_number', 'wpps_closeCommentsGlobaly');
 		add_filter('comments_open', 'wpps_closeCommentsGlobaly');
 	}
 
-	// no more jumping for read more link
+	// Enforce minimum comment length
+	function wpps_minimum_comment( $commentdata ) {
+		
+		$config = get_option('wpps_options');
+
+		$minimalCommentLength = $config['wpps_minimum_comment_length'];
+
+		if ( strlen( trim( $commentdata['comment_content'] ) ) < $minimalCommentLength ) {
+			wp_die( 'All comments must be at least ' . $minimalCommentLength . ' characters long.' );
+		}
+
+		return $commentdata;
+	}
+
+	if( $config['wpps_minimum_comment_length'] > 0 ){
+		add_filter( 'preprocess_comment', 'wpps_minimum_comment' );
+	}
+
+	// No more jumping for read more link
 	function wpps_no_jump($post) {
 		return '<a href="'.get_permalink($post->ID).'" class="more-link">'.'Continue Reading'.'</a>';
 	}
@@ -358,8 +399,10 @@ function wpps_init() {
 
 	// Custom login logo
 	function wpss_custom_login_logo() {
+		
 		$config = get_option('wpps_options');
-		echo '<style type="text/css">
+		
+		echo '<style>
 		.login #login { padding-top: 0;}
 		.login h1 { width: 320px; height: 200px; }
 		.login h1 a { background:url('. $config['wpss_custom_login_logo'].') 50% 50% no-repeat; background-size:contain; height: 200px; width: 320px; }
@@ -387,6 +430,61 @@ function wpps_init() {
 	}
 	if( $config['wpps_custom_login_title'] !== '' ){
 		add_filter('login_headertitle', 'wpps_custom_login_title');
+	}
+
+	// GOOGLE ANALYTICS
+
+	// Universal Analytics code
+	function wpps_ga_universal_insert(){
+		
+		$config = get_option('wpps_options');
+
+		// Default SSL option == FALSE
+		if( $config['wpps_ga_ssl'] == 1 ){
+			$tracking_code_ssl = "ga('set', 'forceSSL', true);";
+		} else {
+			$tracking_code_ssl = "ga('set', 'forceSSL', false);";
+		}
+
+		// Default Display Features option == ''
+		if( $config['wpps_ga_display'] == 1 ){
+			$tracking_code_display = "ga('require', 'displayfeatures');";
+		} else {
+			$tracking_code_display = '';
+		}
+
+		echo "<script>";
+		echo "(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');";
+		echo $tracking_code_ssl;
+		echo "ga('create', '" . $config['wpps_ga_id'] . "', 'auto');";
+		echo $tracking_code_display;
+		echo "ga('send', 'pageview');</script>";
+	}
+
+	function wpps_ga_classic_insert(){
+		$config = get_option('wpps_options');
+
+		echo "<script>
+				var gaJsHost = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.');
+				document.write(unescape(\"%3Cscript src='\" + gaJsHost + \"google-analytics.com/ga.js'%3E%3C/script%3E\"));
+				</script>
+				<script>
+				try {
+					var pageTracker = _gat._getTracker(\"" . $config['wpps_ga_id'] . "\");
+					pageTracker._trackPageview();
+				} catch(err) {}
+			</script>";
+	}
+
+	// Google Analytics insertion
+	if( $config['wpps_ga_insert'] == 1 ){
+
+		if( $config['wpps_ga_universal'] == 1 ) {
+			add_action('wp_head', 'wpps_ga_universal_insert', 999);
+		} else {
+			add_action('wp_head', 'wpps_ga_classic_insert', 999);
+		}
+
 	}
 
 	// Admin Menu Items
