@@ -3,7 +3,7 @@
  * Plugin Name: WP Performance & Security
  * Plugin URI: https://imaginarymedia.com.au/projects/wp-perf-sec/
  * Description: A plugin with a range of performance and security enhancements
- * Version: 0.2
+ * Version: 0.3
  * Author: Imaginary Media
  * Author URI: https://imaginarymedia.com.au/
  * License: GPL2

@@ -2,8 +2,8 @@
 Contributors: imaginarymedia
 Tags: performance, security, settings
 Requires at least: 3.0.1
-Tested up to: 4.0
-Stable tag: 0.2
+Tested up to: 4.0.1
+Stable tag: 0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,8 @@ We're working to add the following features to the plugin:
 
 * Scheduled trash cleanup
 * .htaccess modification for security and compression
+* Ability to load image via plugin for the login page logo
+
 
 If you have further suggestions, please contact us via the [plugin support page](https://wordpress.org/support/plugin/wp-performance-security).
 
@@ -79,10 +81,14 @@ If you find this plugin it useful to manage your WordPress settings, please [rev
 
 == Changelog ==
 
-= 0.1 =
-* Initial launch
+= 0.3 =
+* Updated plugin to allow for internationalization
+* Added icon
 
 = 0.2 =
 * Added support for adding Google Analytics tracking code
 * Added a toggle to remove the admin bar from front-facing pages
 * Added a setting to enforce and set the minimum number of characters required in a comment
+
+= 0.1 =
+* Initial launch
