@@ -1,8 +1,9 @@
 === Plugin Name ===
 Contributors: imaginarymedia
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BNWNBPEK33UBA
 Tags: performance, security, settings
 Requires at least: 3.0.1
-Tested up to: 4.0.1
+Tested up to: 4.1
 Stable tag: 0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -80,6 +81,11 @@ If you find this plugin it useful to manage your WordPress settings, please [rev
 
 
 == Changelog ==
+
+= 0.4 =
+* Minor code changes
+	- JS only loaded on plugin page
+* Changed default settings, all plugin options set to the WordPress defaults
 
 = 0.3 =
 * Updated plugin to allow for internationalization

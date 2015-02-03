@@ -3,13 +3,13 @@
  * Plugin Name: WP Performance & Security
  * Plugin URI: https://imaginarymedia.com.au/projects/wp-perf-sec/
  * Description: A plugin with a range of performance and security enhancements
- * Version: 0.3
+ * Version: 0.4
  * Author: Imaginary Media
  * Author URI: https://imaginarymedia.com.au/
  * License: GPL2
  */
 
-/*  Copyright 2014 Imaginary Media (email : support@imaginarymedia.com.au)
+/*  Copyright 2015 Imaginary Media (email : support@imaginarymedia.com.au)
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License, version 2, as 
@@ -27,61 +27,61 @@
 
 if ( !defined( 'ABSPATH' ) ) exit;
 
-#Add settings and styles files
+// Add settings and styles files
 include('modules/settings.php');
 include('modules/scripts.php');
 
 // Init settings values on activation
 function wpps_activate(){
-	$config = get_option('wpps_options'); 
+	$config = get_option('wpps_options');
 	
-	$wpps_options['stats_admin_footer'] = 1;
-	$wpps_options['wpps_custom_upload_mimes'] = 1;
-	$wpps_options['wpps_remove_wp_open_sans'] = 1;
+	$wpps_options['stats_admin_footer'] = 0;
+	$wpps_options['wpps_custom_upload_mimes'] = 0;
+	$wpps_options['wpps_remove_wp_open_sans'] = 0;
 	$wpps_options['wpps_excerpt_length'] = '55';
-	$wpps_options['wpps_page_excerpts'] = 1;
-	$wpps_options['output_compression'] = 1;
-	$wpps_options['xmlrpc_enabled'] = 1;
-	$wpps_options['atom_service_url_filter'] = 1;
-	$wpps_options['wpps_searchAll'] = 1;
-	$wpps_options['wpps_custom_feed_request'] = 1;
-	$wpps_options['tags_support_all'] = 1;
-	$wpps_options['tags_support_query'] = 1;
-	$wpps_options['wpps_self_ping'] = 1;
-	$wpps_options['wpps_html5_support'] = 1;
-	$wpps_options['wpps_remove_script_version'] = 1;
-	$wpps_options['wpps_remove_wp_version'] = 1;
-	$wpps_options['wpps_all_settings_link'] = 1;
+	$wpps_options['wpps_page_excerpts'] = 0;
+	$wpps_options['output_compression'] = 0;
+	$wpps_options['xmlrpc_enabled'] = 0;
+	$wpps_options['atom_service_url_filter'] = 0;
+	$wpps_options['wpps_searchAll'] = 0;
+	$wpps_options['wpps_custom_feed_request'] = 0;
+	$wpps_options['tags_support_all'] = 0;
+	$wpps_options['tags_support_query'] = 0;
+	$wpps_options['wpps_self_ping'] = 0;
+	$wpps_options['wpps_html5_support'] = 0;
+	$wpps_options['wpps_remove_script_version'] = 0;
+	$wpps_options['wpps_remove_wp_version'] = 0;
+	$wpps_options['wpps_all_settings_link'] = 0;
 	$wpps_options['wpps_replace_howdy'] = 'Welcome, ';
-	$wpps_options['wpps_auto_content'] = 1;
-	$wpps_options['wpps_auto_excerpt'] = 1;
+	$wpps_options['wpps_auto_content'] = 0;
+	$wpps_options['wpps_auto_excerpt'] = 0;
 
 	//Admin Bar
 	$wpps_options['wpps_admin_bar'] = 0;
 	
 	// Comments
-	$wpps_options['wpps_clickable_comments'] = 1;
-	$wpps_options['wpps_media_comment_status'] = 1;
-	$wpps_options['wpps_closeCommentsGlobaly'] = 1;
-	$wpps_options['wpps_comment_url'] = 1;
+	$wpps_options['wpps_clickable_comments'] = 0;
+	$wpps_options['wpps_media_comment_status'] = 0;
+	$wpps_options['wpps_closeCommentsGlobaly'] = 0;
+	$wpps_options['wpps_comment_url'] = 0;
 	$wpps_options['wpps_minimum_comment_length'] = 0;
 	
-	$wpps_options['wpps_jetpack_devicepx'] = 1;
+	$wpps_options['wpps_jetpack_devicepx'] = 0;
 
 	// Login Options
 	$wpps_options['wpss_custom_login_logo'] = '';
 	$wpps_options['wpps_custom_login_url'] = '';
 	$wpps_options['wpps_custom_login_title'] = '';
-	$wpps_options['login_errors'] = 1;
+	$wpps_options['login_errors'] = 0;
 
 	$wpps_options['wpps_excerpt_more'] = '[...]';
-	$wpps_options['wpps_read_more'] = 1;
+	$wpps_options['wpps_read_more'] = 0;
 	
 	// Header links
-	$wpps_options['wpps_rel_links'] = 1;
-	$wpps_options['wpps_wlw_manifest'] = 1;
-	$wpps_options['wpps_rsd_link'] = 1;
-	$wpps_options['wpps_short_link'] = 1;
+	$wpps_options['wpps_rel_links'] = 0;
+	$wpps_options['wpps_wlw_manifest'] = 0;
+	$wpps_options['wpps_rsd_link'] = 0;
+	$wpps_options['wpps_short_link'] = 0;
 
 	// Dashboard Widgets
 	$wpps_options['wpps_dash_primary'] = 0;
@@ -105,7 +105,7 @@ function wpps_activate(){
 	// Google Analytics options
 	$wpps_options['wpps_ga_insert'] = 0;
 	$wpps_options['wpps_ga_id'] = '';
-	$wpps_options['wpps_ga_universal'] = 1;
+	$wpps_options['wpps_ga_universal'] = 0;
 	$wpps_options['wpps_ga_ssl'] = 0;
 	$wpps_options['wpps_ga_display'] = 0;
 
