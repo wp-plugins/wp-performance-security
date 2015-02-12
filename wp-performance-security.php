@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WP Performance & Security
  * Plugin URI: https://imaginarymedia.com.au/projects/wp-perf-sec/
- * Description: A plugin with a range of performance and security enhancements
+ * Description: Change WordPress settings that can improve the performance and security of your site. Reduce load times, vulnerabilities, and control comments and hidden WordPress features. <a href="https://wordpress.org/support/plugin/wp-performance-security">Need help?</a>
  * Version: 0.4
  * Author: Imaginary Media
  * Author URI: https://imaginarymedia.com.au/

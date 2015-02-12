@@ -29,15 +29,19 @@
 	$plugin = 'wp-performance-security/wp-performance-security.php';
 	add_filter("plugin_action_links_$plugin", "wpps_plugin_settings_link");
 
-	// Add donate link on plugin page	
-	function wpps_plugin_donate_link( $links, $file ) {
+	// Add meta links on plugin page
+	function wpps_plugin_meta_links( $links, $file ) {
 		if ( strpos( $file, 'wp-performance-security.php' ) !== false ) {
-			$donate_link = array('<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BNWNBPEK33UBA" target="_blank">Donate</a>');
-			$links = array_merge( $links, $donate_link );
+			$meta_link = array(
+				'<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BNWNBPEK33UBA" target="_blank">Donate via PayPal</a>',
+				'<a href="https://www.coinbase.com/imaginarymedia" target="_blank">Donate Bitcoin</a>',
+				'<a href="https://wordpress.org/support/view/plugin-reviews/wp-performance-security" target="_blank">Rate This Plugin</a>'
+			);
+			$links = array_merge( $links, $meta_link );
 		}
 		return $links;
 	}
-	add_filter("plugin_row_meta", "wpps_plugin_donate_link", 10, 2 );
+	add_filter("plugin_row_meta", "wpps_plugin_meta_links", 10, 2 );
 
 	// Settings output function
 	function wpps_config(){
