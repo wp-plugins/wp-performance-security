@@ -26,17 +26,18 @@
 		array_unshift($links, $settings_link); 
 		return $links;
 	}
+	$plugin = 'wp-performance-security/wp-performance-security.php';
+	add_filter("plugin_action_links_$plugin", "wpps_plugin_settings_link");
 
-	// Add donate link on plugin page
-	function wpps_plugin_donate_link($links) { 
-		$donate_link = '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BNWNBPEK33UBA">Donate</a>'; 
-		array_unshift($links, $donate_link); 
+	// Add donate link on plugin page	
+	function wpps_plugin_donate_link( $links, $file ) {
+		if ( strpos( $file, 'wp-performance-security.php' ) !== false ) {
+			$donate_link = array('<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BNWNBPEK33UBA" target="_blank">Donate</a>');
+			$links = array_merge( $links, $donate_link );
+		}
 		return $links;
 	}
-
-	$plugin = 'wp-performance-security/wp-performance-security.php';
-	add_filter("plugin_action_links_$plugin", 'wpps_plugin_settings_link' );
-	add_filter("plugin_action_links_$plugin", 'wpps_plugin_donate_link' );
+	add_filter("plugin_row_meta", "wpps_plugin_donate_link", 10, 2 );
 
 	// Settings output function
 	function wpps_config(){
