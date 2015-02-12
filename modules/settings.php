@@ -27,8 +27,16 @@
 		return $links;
 	}
 
+	// Add donate link on plugin page
+	function wpps_plugin_donate_link($links) { 
+		$donate_link = '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BNWNBPEK33UBA">Donate</a>'; 
+		array_unshift($links, $donate_link); 
+		return $links;
+	}
+
 	$plugin = 'wp-performance-security/wp-performance-security.php';
 	add_filter("plugin_action_links_$plugin", 'wpps_plugin_settings_link' );
+	add_filter("plugin_action_links_$plugin", 'wpps_plugin_donate_link' );
 
 	// Settings output function
 	function wpps_config(){
