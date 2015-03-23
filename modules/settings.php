@@ -1,6 +1,6 @@
 <?php 
 	
-	ob_start();
+	//ob_start();
 
 	// Process settings update
 	add_action('plugins_loaded', 'wpps_update_settings');
@@ -33,8 +33,7 @@
 	function wpps_plugin_meta_links( $links, $file ) {
 		if ( strpos( $file, 'wp-performance-security.php' ) !== false ) {
 			$meta_link = array(
-				'<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BNWNBPEK33UBA" target="_blank">Donate via PayPal</a>',
-				'<a href="https://www.coinbase.com/imaginarymedia" target="_blank">Donate Bitcoin</a>',
+				'Donate via <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BNWNBPEK33UBA" target="_blank">PayPal</a> or <a href="https://www.coinbase.com/imaginarymedia" target="_blank">Bitcoin</a>',
 				'<a href="https://wordpress.org/support/view/plugin-reviews/wp-performance-security" target="_blank">Rate This Plugin</a>'
 			);
 			$links = array_merge( $links, $meta_link );

@@ -3,7 +3,7 @@
  * Plugin Name: WP Performance & Security
  * Plugin URI: https://imaginarymedia.com.au/projects/wp-perf-sec/
  * Description: Change WordPress settings that can improve the performance and security of your site. Reduce load times, vulnerabilities, and control comments and hidden WordPress features. <a href="https://wordpress.org/support/plugin/wp-performance-security">Need help?</a>
- * Version: 0.4
+ * Version: 0.5
  * Author: Imaginary Media
  * Author URI: https://imaginarymedia.com.au/
  * License: GPL2
@@ -136,7 +136,7 @@ function wpps_init() {
 	// Display DB Queries, Time Spent and Memory Consumption in Admin footer
 	function stats_admin_footer() {
 		$stat = sprintf(  '%d queries in %.3f seconds, using %.2fMB memory', get_num_queries(), timer_stop( 0, 3 ), memory_get_peak_usage() / 1024 / 1024 );
-		echo $stat;
+		return '<p class="alignleft">' . $stat . '</p>';
 	} 
 	if( $config['stats_admin_footer'] == 1 ){
 		add_filter('admin_footer_text', 'stats_admin_footer');
