@@ -15,6 +15,7 @@ This plugin provides settings to modify WordPress and improve performance and se
 This plugin provides settings to modify WordPress and improve performance and security.
 
 **General settings**
+
 * Modify excerpt length, the "More" text, and allow excerpts on Pages
 * Change the "Read more" settings, so that the anchors to articles don't jump
 * Modify custom post types so that they appear in search results and RSS feeds
@@ -28,12 +29,14 @@ This plugin provides settings to modify WordPress and improve performance and se
 * Disable auto-formatting of content and/or excerpts
 
 **Performance**
+
 * Enable GZIP on Apache
 * Disable WordPress pings from internal links
 * Remove the version query string on styles and scripts
 * Remove the JetPack plugin `devicepx` script
 
 **Security**
+
 * Remove the WordPress version string
 * Modify XMLRPC features - disable entirely and/or disable XMLRPC SSL testing
 * Comment modifications:
@@ -43,6 +46,7 @@ This plugin provides settings to modify WordPress and improve performance and se
 	- Remove the 'URL' field from the comments form
 
 **Administration**
+
 * Show statistics in the Admin section
 * Change the WordPress greeting, even for non US English installs
 * Remove the 'Open Sans' Google webfont from Admin
@@ -51,6 +55,7 @@ This plugin provides settings to modify WordPress and improve performance and se
 * Include the "All Settings" menu item
 
 **Login**
+
 * Change the login page logo
 * Change the login page logo URL
 * Change the login page logo URL title
@@ -78,24 +83,31 @@ Developed by [Imaginary Media](https://imaginarymedia.com.au).
 == Changelog ==
 
 = 0.5 =
+
 * Fixed issue where plugin might conflict with WP Super Cache
 
 = 0.4.1 =
+
 * Minor changes to plugin settings in WP
 
 = 0.4 =
-* Minor code changes
-	- JS only loaded on plugin page
+
+Minor code changes
+	
+* JS only loaded on plugin page
 * Changed default settings, all plugin options set to the WordPress defaults
 
 = 0.3 =
+
 * Updated plugin to allow for internationalization
 * Added icon
 
 = 0.2 =
+
 * Added support for adding Google Analytics tracking code
 * Added a toggle to remove the admin bar from front-facing pages
 * Added a setting to enforce and set the minimum number of characters required in a comment
 
 = 0.1 =
+
 * Initial launch
