@@ -3,7 +3,7 @@
  * Plugin Name: WP Performance & Security
  * Plugin URI: https://imaginarymedia.com.au/projects/wp-perf-sec/
  * Description: Change WordPress settings that can improve the performance and security of your site. Reduce load times, vulnerabilities, and control comments and hidden WordPress features. <a href="https://wordpress.org/support/plugin/wp-performance-security">Need help?</a>
- * Version: 0.5
+ * Version: 0.6
  * Author: Imaginary Media
  * Author URI: https://imaginarymedia.com.au/
  * License: GPL2
@@ -120,34 +120,34 @@ function wpps_init() {
 	$config = get_option('wpps_options');
 
 	// Hide the admin bar from front-facing pages
-	if( $config['wpps_admin_bar'] == 1 ){
+	if ( isset( $config['wpps_admin_bar'] ) && $config['wpps_admin_bar'] == 1 ) {
 		add_filter('show_admin_bar', '__return_false');
 	}
 
-	// Remove Jetpack devicepx script
-	function wpps_dequeue_devicepx() {
-		wp_dequeue_script( 'devicepx' );
-	}
-	
-	if( $config['wpps_jetpack_devicepx'] == 1 ){
+	// Remove Jetpack devicepx script	
+	if( isset( $config['wpps_jetpack_devicepx'] ) && $config['wpps_jetpack_devicepx'] == 1 ){
+		function wpps_dequeue_devicepx() {
+			wp_dequeue_script( 'devicepx' );
+		}
 		add_action( 'wp_enqueue_scripts', 'wpps_dequeue_devicepx', 20 );
 	}
 
 	// Display DB Queries, Time Spent and Memory Consumption in Admin footer
-	function stats_admin_footer() {
-		$stat = sprintf(  '%d queries in %.3f seconds, using %.2fMB memory', get_num_queries(), timer_stop( 0, 3 ), memory_get_peak_usage() / 1024 / 1024 );
-		return '<p class="alignleft">' . $stat . '</p>';
-	} 
-	if( $config['stats_admin_footer'] == 1 ){
+	if( isset( $config['stats_admin_footer'] ) && $config['stats_admin_footer'] == 1 ){
+		function stats_admin_footer() {
+			$stat = sprintf(  '%d queries in %.3f seconds, using %.2fMB memory', get_num_queries(), timer_stop( 0, 3 ), memory_get_peak_usage() / 1024 / 1024 );
+			return '<p class="alignleft">' . $stat . '</p>';
+		}
 		add_filter('admin_footer_text', 'stats_admin_footer');
 	}
 
 	// Allow SVG MIME types to be uploaded
-	function wpps_custom_upload_mimes ( $existing_mimes=array() ) {
-		$existing_mimes['svg'] = 'image/svg+xml';
-		return $existing_mimes;
-	}
-	if( $config['wpps_custom_upload_mimes'] == 1 ){
+	if( isset( $config['wpps_custom_upload_mimes'] ) && $config['wpps_custom_upload_mimes'] == 1 ){
+		function wpps_custom_upload_mimes ( $existing_mimes=array() ) {
+			$existing_mimes['svg'] = 'image/svg+xml';
+			$existing_mimes['svgz'] = 'image/svg+xml';
+			return $existing_mimes;
+		}
 		add_filter('upload_mimes', 'wpps_custom_upload_mimes');
 	}
 
@@ -189,124 +189,125 @@ function wpps_init() {
 
 
 	// Header Stuff
-	if( $config['wpps_rel_links'] == 1 ){
+	if( isset( $config['wpps_rel_links'] ) && $config['wpps_rel_links'] == 1 ){
 		remove_action( 'wp_head', 'index_rel_link' );
 		remove_action( 'wp_head', 'parent_post_rel_link' );
 		remove_action( 'wp_head', 'start_post_rel_link', 10, 0 );
 		remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0);
 	}
 
-	if( $config['wpps_wlw_manifest'] == 1 ){
+	if( isset( $config['wpps_wlw_manifest'] ) && $config['wpps_wlw_manifest'] == 1 ){
 		remove_action( 'wp_head', 'wlwmanifest_link' );
 	}
 
-	if( $config['wpps_rsd_link'] == 1 ){
+	if( isset( $config['wpps_rsd_link'] ) && $config['wpps_rsd_link'] == 1 ){
 		remove_action( 'wp_head', 'rsd_link' );
 	}
 
-	if( $config['wpps_short_link'] == 1 ){
+	if( isset( $config['wpps_short_link'] ) && $config['wpps_short_link']== 1 ){
 		remove_action( 'wp_head', 'wp_shortlink_wp_head');
 	}
 
 
 	// Enable GZIP compression
-	if( $config['output_compression'] == 1 ){
+	if( isset( $config['output_compression'] ) && $config['output_compression'] == 1 ){
 		if(extension_loaded("zlib") && (ini_get("output_handler") != "ob_gzhandler")) {
 			add_action('wp', create_function('', '@ob_end_clean();@ini_set("zlib.output_compression", 1);'));
 		}
 	}
 
 	// Disable XMLRPC
-	if( $config['xmlrpc_enabled'] == 1 ){
+	if( isset( $config['xmlrpc_enabled'] ) && $config['xmlrpc_enabled'] == 1 ){
 		add_filter('xmlrpc_enabled', '__return_false');
 	}
 
 	// Prevents WordPress from testing SSL capability on domain.com/xmlrpc.php?rsd when XMLRPC not in use
-	if( $config['atom_service_url_filter'] == 'on' ){
+	if( isset( $config['atom_service_url_filter'] ) && $config['atom_service_url_filter'] == 'on' ){
 		remove_filter('atom_service_url','atom_service_url_filter');
 	}
 
 	// Hide login form error messages
-	if( $config['login_errors'] == 1 ){
-		add_filter('login_errors',create_function('$a', "return 'Error';"));
+	if( isset( $config['login_errors'] ) && $config['login_errors'] == 1 ){
+		add_filter('login_errors', create_function('$a', "return 'Error';"));
 	}
 
 	// Show Custom Post Types in search results
-	function wpps_searchAll( $query ) {
-		if ( $query->is_search ) { $query->set( 'post_type', array( 'site', 'plugin', 'theme', 'person' )); } 
-		return $query;
-	}
-	if( $config['wpps_searchAll'] == 1 ){
+	if( isset( $config['wpps_searchAll'] ) && $config['wpps_searchAll'] == 1 ){
+		function wpps_searchAll( $query ) {
+			if ( $query->is_search ) { $query->set( 'post_type', array( 'site', 'plugin', 'theme', 'person' )); } 
+			return $query;
+		}
 		add_filter( 'the_search_query', 'wpps_searchAll' );
 	}
 
 	// Add Custom Post Types to the default RSS feed
-	function wpps_custom_feed_request( $vars ) {
-		if (isset($vars['feed']) && !isset($vars['post_type']))
-			$vars['post_type'] = array( 'post', 'site', 'plugin', 'theme', 'person' );
-		return $vars;
-	}
-	if( $config['wpps_custom_feed_request'] == 1 ){
+	if( isset( $config['wpps_custom_feed_request'] ) && $config['wpps_custom_feed_request'] == 1 ){
+		function wpps_custom_feed_request( $vars ) {
+			if (isset($vars['feed']) && !isset($vars['post_type']))
+				$vars['post_type'] = array( 'post', 'site', 'plugin', 'theme', 'person' );
+			return $vars;
+		}
 		add_filter( 'request', 'wpps_custom_feed_request' );
 	}
 
 	// Allow tags on pages
-	function tags_support_all() {
-		register_taxonomy_for_object_type('post_tag', 'page');
-	}
-	if( $config['tags_support_all'] == 1 ){
+	if( isset( $config['tags_support_all'] ) && $config['tags_support_all'] == 1 ){
+		function tags_support_all() {
+			register_taxonomy_for_object_type('post_tag', 'page');
+		}
 		add_action('init', 'tags_support_all');
 	}
 
 	// Ensure all tags are included in queries
-	function tags_support_query($wp_query) {
-		if ($wp_query->get('tag')) $wp_query->set('post_type', 'any');
-	}
-	if( $config['tags_support_query'] == 1 ){
+	if( isset( $config['tags_support_query'] ) && $config['tags_support_query'] == 1 ){
+		function tags_support_query($wp_query) {
+			if ($wp_query->get('tag')) $wp_query->set('post_type', 'any');
+		}
 		add_action('pre_get_posts', 'tags_support_query');
 	}
 
 	// Disable self-ping
-	function wpps_self_ping( &$links ) {
-		$home = get_option( 'home' );
-		foreach ( $links as $l => $link )
-			if ( 0 === strpos( $link, $home ) )
-				unset($links[$l]);
-	}
-	if( $config['wpps_self_ping'] == 1 ){
+	if( isset( $config['wpps_self_ping'] ) && $config['wpps_self_ping'] == 1 ){
+		function wpps_self_ping( &$links ) {
+			$home = get_option( 'home' );
+			foreach ( $links as $l => $link ) {
+				if ( 0 === strpos( $link, $home ) ){
+					unset($links[$l]);
+				}
+			}
+		}
 		add_action( 'pre_ping', 'wpps_self_ping' );
 	}
 
 	// Use HTML5
-	if( ( $config['wpps_html5_support'] == 1 ) && function_exists( 'add_theme_support' ) ) {
+	if( isset( $config['wpps_html5_support'] ) && $config['wpps_html5_support'] == 1 && function_exists( 'add_theme_support' ) ) {
 			add_theme_support( 'html5', array( 'comment-list', 'comment-form', 'search-form', 'gallery', 'caption' ) );
 	}
 
 	// Remove the version query string from scripts and styles - allows for better caching
-	function wpps_remove_script_version( $src ){
-		$parts = explode( '?', $src );
-		return $parts[0];
-	}
-	if( $config['wpps_remove_script_version'] == 1 ){
+	if( isset( $config['wpps_remove_script_version'] ) && $config['wpps_remove_script_version'] == 1 ){
+		function wpps_remove_script_version( $src ){
+			$parts = explode( '?', $src );
+			return $parts[0];
+		}
 		add_filter( 'script_loader_src', 'wpps_remove_script_version', 15, 1 );
 		add_filter( 'style_loader_src', 'wpps_remove_script_version', 15, 1 );
 	}
 
 	// Remove WordPress version number
-	function wpps_remove_wp_version() {
-		return '';
-	}
-	if( $config['wpps_remove_wp_version'] == 1 ){
+	if( isset( $config['wpps_remove_wp_version'] ) && $config['wpps_remove_wp_version'] == 1 ){
+		function wpps_remove_wp_version() {
+			return '';
+		}
 		remove_action('wp_head', 'wp_generator');
 		add_filter('the_generator', 'wpps_remove_wp_version');
 	}
 
 	// Add new Admin menu item "All Settings"
-	function wpps_all_settings_link() {
-		add_options_page(__('All Settings'), __('All Settings'), 'administrator', 'options.php');
-	}
-
-	if( $config['wpps_all_settings_link'] == 1 ){
+	if( isset( $config['wpps_all_settings_link'] ) && $config['wpps_all_settings_link'] == 1 ){
+		function wpps_all_settings_link() {
+			add_options_page(__('All Settings'), __('All Settings'), 'administrator', 'options.php');
+		}
 		add_action('admin_menu', 'wpps_all_settings_link');
 	}
 
@@ -326,109 +327,102 @@ function wpps_init() {
 	add_filter( 'admin_bar_menu', 'wpps_replace_howdy', 25 );
 
 	// Disable Auto-Formatting in Excerpt
-	if( $config['wpps_auto_excerpt'] == 1 ){
+	if( isset( $config['wpps_auto_excerpt'] ) && $config['wpps_auto_excerpt'] == 1 ){
 		remove_filter( 'the_excerpt', 'wpautop' );
 	}
 
-	if( $config['wpps_auto_content'] == 1 ){
+	// Disable Auto-Formatting in Content
+	if( isset( $config['wpps_auto_content'] ) && $config['wpps_auto_content'] == 1 ){
 		remove_filter( 'the_content', 'wpautop' );
 	}
 
 	// Disable Auto Linking of URLs in comments
-	if( $config['wpps_clickable_comments'] == 1 ){
+	if( isset( $config['wpps_clickable_comments'] ) && $config['wpps_clickable_comments'] == 1 ){
 		remove_filter('comment_text', 'make_clickable', 9);
 	}
 
 	// Removes URL field from comments
-	function wpps_remove_comment_url($fields) {
-		unset($fields['url']);
-		return $fields;
-	}
-	if( $config['wpps_comment_url'] == 1 ) {
+	if( isset( $config['wpps_comment_url'] ) && $config['wpps_comment_url'] == 1 ) {
+		function wpps_remove_comment_url($fields) {
+			unset($fields['url']);
+			return $fields;
+		}
 		add_filter('comment_form_default_fields','wpps_remove_comment_url');
 	}
 
 	// Disable comments on media files
-	function wpps_media_comment_status( $open, $post_id ) {
-		$post = get_post( $post_id );
-		if( $post->post_type == 'attachment' ) {
-			return false;
+	if( isset( $config['wpps_media_comment_status'] ) && $config['wpps_media_comment_status'] == 1 ){
+		function wpps_media_comment_status( $open, $post_id ) {
+			$post = get_post( $post_id );
+			if( $post->post_type == 'attachment' ) {
+				return false;
+			}
+			return $open;
 		}
-		return $open;
-	}
-	if( $config['wpps_media_comment_status'] == 1 ){
 		add_filter( 'comments_open', 'wpps_media_comment_status', 10 , 2 );
 	}
 
 	// Close comments globally
-	function wpps_closeCommentsGlobaly($data) {
-		return false;
-	}
-	
-	if( $config['wpps_closeCommentsGlobaly'] == 1 ){
+	if( isset( $config['wpps_closeCommentsGlobaly'] ) && $config['wpps_closeCommentsGlobaly'] == 1 ){
+		function wpps_closeCommentsGlobaly($data) {
+			return false;
+		}
 		add_filter('comments_number', 'wpps_closeCommentsGlobaly');
 		add_filter('comments_open', 'wpps_closeCommentsGlobaly');
 	}
 
 	// Enforce minimum comment length
-	function wpps_minimum_comment( $commentdata ) {
-		
-		$config = get_option('wpps_options');
-
-		$minimalCommentLength = $config['wpps_minimum_comment_length'];
-
-		if ( strlen( trim( $commentdata['comment_content'] ) ) < $minimalCommentLength ) {
-			wp_die( 'All comments must be at least ' . $minimalCommentLength . ' characters long.' );
+	if ( isset( $config['wpps_minimum_comment_length'] ) && $config['wpps_minimum_comment_length'] > 0 ) {
+		function wpps_minimum_comment( $commentdata ) {
+			$minimalCommentLength = $config['wpps_minimum_comment_length'];
+			if ( strlen( trim( $commentdata['comment_content'] ) ) < $minimalCommentLength ) {
+				wp_die( 'All comments must be at least ' . $minimalCommentLength . ' characters long.' );
+			}
+			return $commentdata;
 		}
-
-		return $commentdata;
-	}
-
-	if( $config['wpps_minimum_comment_length'] > 0 ){
 		add_filter( 'preprocess_comment', 'wpps_minimum_comment' );
 	}
 
 	// No more jumping for read more link
-	function wpps_no_jump($post) {
-		return '<a href="'.get_permalink($post->ID).'" class="more-link">'.'Continue Reading'.'</a>';
+	function wpps_no_jump( $more ) {
+		return '<a href="' . get_permalink( get_the_ID() ) . '" class="more-link">'.'Continue Reading'.'</a>';
 	}
-	if( $config['wpps_read_more'] == 1 ){
+	if( isset( $config['wpps_read_more'] ) && $config['wpps_read_more'] == 1 ){
 		add_filter('excerpt_more', 'wpps_no_jump');
 		add_filter('the_content_more_link', 'wpps_no_jump');
 	}
 
 	// Custom login logo
-	function wpss_custom_login_logo() {
-		
-		$config = get_option('wpps_options');
-		
-		echo '<style>
-		.login #login { padding-top: 0;}
-		.login h1 { width: 320px; height: 200px; }
-		.login h1 a { background:url('. $config['wpss_custom_login_logo'].') 50% 50% no-repeat; background-size:contain; height: 200px; width: 320px; }
-		</style>';
-	}
-	if( $config['wpss_custom_login_logo'] !== '' ){
+	if( ! empty( $config['wpss_custom_login_logo'] ) ) {
+		function wpss_custom_login_logo() {
+			echo '<style>
+			.login #login { padding-top: 0;}
+			.login h1 { width: 320px; height: 200px; }
+			.login h1 a { background:url('. $config['wpss_custom_login_logo'].') 50% 50% no-repeat; background-size:contain; height: 200px; width: 320px; }
+			</style>';
+		}
 		add_action('login_head', 'wpss_custom_login_logo');
 	}
 
 
 	// Custom login URL
-	function wpps_custom_login_url(){
-		$config = get_option('wpps_options');
-		return  $config['wpps_custom_login_url'];
-	}
-	if( $config['wpps_custom_login_url'] !== '' ){
+	if( ! empty( $config['wpps_custom_login_url'] ) ){
+		function wpps_custom_login_url(){
+			if ( isset( $config['wpps_custom_login_url'] ) ) {
+				return  $config['wpps_custom_login_url'];
+			}
+		}
 		add_filter('login_headerurl', 'wpps_custom_login_url');
 	}
 
 
 	// Custom login URL Title Attribute
-	function wpps_custom_login_title(){
-		$config = get_option('wpps_options');
-		return  $config['wpps_custom_login_title'] ;
-	}
-	if( $config['wpps_custom_login_title'] !== '' ){
+	if( ! empty ( $config['wpps_custom_login_title'] ) ) {
+		function wpps_custom_login_title(){
+			if ( isset( $config['wpps_custom_login_title'] ) ) {
+				return  $config['wpps_custom_login_title'];
+			}
+		}
 		add_filter('login_headertitle', 'wpps_custom_login_title');
 	}
 
@@ -447,7 +441,7 @@ function wpps_init() {
 		}
 
 		// Default Display Features option == ''
-		if( $config['wpps_ga_display'] == 1 ){
+		if( isset( $config['wpps_ga_display'] ) && $config['wpps_ga_display'] == 1 ){
 			$tracking_code_display = "ga('require', 'displayfeatures');";
 		} else {
 			$tracking_code_display = '';
@@ -499,62 +493,56 @@ function wpps_init() {
 	}
 
 	// Admin Menu Items - About
-	function wpps_menu_about() {
-		global $wp_admin_bar;
-		$wp_admin_bar->remove_menu('about');
-	}
-
-	if( $config['wpps_menu_about'] == 1 ){
+	if( isset( $config['wpps_menu_about'] ) && $config['wpps_menu_about'] == 1 ){
+		function wpps_menu_about() {
+			global $wp_admin_bar;
+			$wp_admin_bar->remove_menu('about');
+		}
 		add_action( 'wp_before_admin_bar_render', 'wpps_menu_about' );
 	}
 
 	// Admin Menu Items - WP.org
-	function wpps_menu_wporg() {
-		global $wp_admin_bar;
-		$wp_admin_bar->remove_menu('wporg');
-	}
-
-	if( $config['wpps_menu_wporg'] == 1 ){
+	if( isset( $config['wpps_menu_wporg'] ) && $config['wpps_menu_wporg'] == 1 ){
+		function wpps_menu_wporg() {
+			global $wp_admin_bar;
+			$wp_admin_bar->remove_menu('wporg');
+		}
 		add_action( 'wp_before_admin_bar_render', 'wpps_menu_wporg' );
 	}
 
 	// Admin Menu Items - Documentation
-	function wpps_menu_documentation() {
-		global $wp_admin_bar;
-		$wp_admin_bar->remove_menu('documentation');
-	}
-
-	if( $config['wpps_menu_documentation'] == 1 ){
+	if( isset( $config['wpps_menu_documentation'] ) && $config['wpps_menu_documentation'] == 1 ){
+		function wpps_menu_documentation() {
+			global $wp_admin_bar;
+			$wp_admin_bar->remove_menu('documentation');
+		}
 		add_action( 'wp_before_admin_bar_render', 'wpps_menu_documentation' );
 	}
 
 	// Admin Menu Items - Support Forums
-	function wpps_menu_forums() {
-		global $wp_admin_bar;
-		$wp_admin_bar->remove_menu('support-forums');
-	}
-
-	if( $config['wpps_menu_forums'] == 1 ){
+	if( isset( $config['wpps_menu_forums'] ) && $config['wpps_menu_forums'] == 1 ){
+		function wpps_menu_forums() {
+			global $wp_admin_bar;
+			$wp_admin_bar->remove_menu('support-forums');
+		}
 		add_action( 'wp_before_admin_bar_render', 'wpps_menu_forums' );
 	}
 
 	// Admin Menu Items - Feedback
-	function wpps_menu_feedback() {
-		global $wp_admin_bar;
-		$wp_admin_bar->remove_menu('feedback');
-	}
-
-	if( $config['wpps_menu_feedback'] == 1 ){
+	if( isset( $config['wpps_menu_feedback'] ) && $config['wpps_menu_feedback'] == 1 ){
+		function wpps_menu_feedback() {
+			global $wp_admin_bar;
+			$wp_admin_bar->remove_menu('feedback');
+		}
 		add_action( 'wp_before_admin_bar_render', 'wpps_menu_feedback' );
 	}
 
 	// Admin Menu Items - View Site
-	function wpps_menu_site() {
-		global $wp_admin_bar;
-		$wp_admin_bar->remove_menu('view-site');
-	}
-
-	if( $config['wpps_menu_site'] == 1 ){
+	if( isset( $config['wpps_menu_site'] ) && $config['wpps_menu_site'] == 1 ){
+		function wpps_menu_site() {
+			global $wp_admin_bar;
+			$wp_admin_bar->remove_menu('view-site');
+		}
 		add_action( 'wp_before_admin_bar_render', 'wpps_menu_site' );
 	}
 
@@ -592,35 +580,35 @@ function wpps_init() {
 		remove_meta_box( 'dashboard_recent_comments', 'dashboard', 'normal' );
 	}
 
-	if( $config['wpps_dash_primary'] == 1 ){
+	if( isset( $config['wpps_dash_primary'] ) && $config['wpps_dash_primary'] == 1 ){
 		add_action( 'admin_init', 'remove_dashboard_primary' );
 	}
 
-	if( $config['wpps_dash_secondary'] == 1 ){
+	if( isset( $config['wpps_dash_secondary'] ) && $config['wpps_dash_secondary'] == 1 ){
 		add_action( 'admin_init', 'remove_dashboard_secondary' );
 	}
 
-	if( $config['wpps_dash_right_now'] == 1 ){
+	if( isset( $config['wpps_dash_right_now'] ) && $config['wpps_dash_right_now'] == 1 ){
 		add_action( 'admin_init', 'remove_dashboard_right_now' );
 	}
 
-	if( $config['wpps_dash_incoming_links'] == 1 ){
+	if( isset( $config['wpps_dash_incoming_links'] ) && $config['wpps_dash_incoming_links'] == 1 ){
 		add_action( 'admin_init', 'remove_dashboard_incoming_links' );
 	}
 
-	if( $config['wpps_dash_plugins'] == 1 ){
+	if( isset( $config['wpps_dash_plugins'] ) && $config['wpps_dash_plugins'] == 1 ){
 		add_action( 'admin_init', 'remove_dashboard_plugins' );
 	}
 
-	if( $config['wpps_dash_quick_press'] == 1 ){
+	if( isset( $config['wpps_dash_quick_press'] ) && $config['wpps_dash_quick_press'] == 1 ){
 		add_action( 'admin_init', 'remove_dashboard_quick_press' );
 	}
 
-	if( $config['wpps_dash_recent_drafts'] == 1 ){
+	if( isset( $config['wpps_dash_recent_drafts'] ) && $config['wpps_dash_recent_drafts'] == 1 ){
 		add_action( 'admin_init', 'remove_dashboard_recent_drafts' );
 	}
 
-	if( $config['wpps_dash_recent_comments'] == 1 ){
+	if( isset( $config['wpps_dash_recent_comments'] ) && $config['wpps_dash_recent_comments'] == 1 ){
 		add_action( 'admin_init', 'remove_dashboard_recent_comments' );
 	}
 
