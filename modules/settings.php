@@ -312,7 +312,7 @@
 
 					<table class="form-table">
 						<tr>
-							<th scope="row"><?php _e('Jetpack', 'wp-performance-security'); ?></th>
+							<th scope="row"><?php _e('Styles & Scripts', 'wp-performance-security'); ?></th>
 							<td>
 								<fieldset>
 									<label>
@@ -320,6 +320,13 @@
 										<span><?php _e('Remove <code>devicepx</code> script', 'wp-performance-security'); ?></span>
 									</label>
 									<p class="description"><?php _e('The Jetpack plugin includes a script called <code>devicepx</code> that handles support for retina/HiDPI versions of files  such as Gravatars. Remove if unnecessary.', 'wp-performance-security'); ?></p>
+								</fieldset>
+								<fieldset>
+									<label>
+										<input type="checkbox" name="wpps_emoji_support" value="1" <?php if ( isset( $config['wpps_emoji_support'] ) ) checked( $config['wpps_emoji_support'], 1 ); ?>>
+										<span><?php _e('Remove emoji support', 'wp-performance-security'); ?></span>
+									</label>
+									<p class="description"><?php _e('Emoji support was added in WP 4.2 and adds unnecessary styles and scripts.', 'wp-performance-security'); ?></p>
 								</fieldset>
 							</td>
 						</tr>

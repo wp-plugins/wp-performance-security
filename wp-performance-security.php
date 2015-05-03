@@ -3,7 +3,7 @@
  * Plugin Name: WP Performance & Security
  * Plugin URI: https://imaginarymedia.com.au/projects/wp-perf-sec/
  * Description: Change WordPress settings that can improve the performance and security of your site. Reduce load times, vulnerabilities, and control comments and hidden WordPress features. <a href="https://wordpress.org/support/plugin/wp-performance-security">Need help?</a>
- * Version: 0.6
+ * Version: 0.7
  * Author: Imaginary Media
  * Author URI: https://imaginarymedia.com.au/
  * License: GPL2
@@ -37,7 +37,6 @@ function wpps_activate(){
 	
 	$wpps_options['stats_admin_footer'] = 0;
 	$wpps_options['wpps_custom_upload_mimes'] = 0;
-	$wpps_options['wpps_remove_wp_open_sans'] = 0;
 	$wpps_options['wpps_excerpt_length'] = '55';
 	$wpps_options['wpps_page_excerpts'] = 0;
 	$wpps_options['output_compression'] = 0;
@@ -53,8 +52,14 @@ function wpps_activate(){
 	$wpps_options['wpps_remove_wp_version'] = 0;
 	$wpps_options['wpps_all_settings_link'] = 0;
 	$wpps_options['wpps_replace_howdy'] = 'Welcome, ';
+	
 	$wpps_options['wpps_auto_content'] = 0;
 	$wpps_options['wpps_auto_excerpt'] = 0;
+
+	// Styles
+	$wpps_options['wpps_emoji_support'] = 0;
+	$wpps_options['wpps_jetpack_devicepx'] = 0;
+	$wpps_options['wpps_remove_wp_open_sans'] = 0;
 
 	//Admin Bar
 	$wpps_options['wpps_admin_bar'] = 0;
@@ -65,8 +70,6 @@ function wpps_activate(){
 	$wpps_options['wpps_closeCommentsGlobaly'] = 0;
 	$wpps_options['wpps_comment_url'] = 0;
 	$wpps_options['wpps_minimum_comment_length'] = 0;
-	
-	$wpps_options['wpps_jetpack_devicepx'] = 0;
 
 	// Login Options
 	$wpps_options['wpss_custom_login_logo'] = '';
@@ -162,6 +165,12 @@ function wpps_init() {
 	if( $config['wpps_remove_wp_open_sans'] == 1 ){
 		add_action('wp_enqueue_scripts', 'wpps_remove_wp_open_sans', 11);
 		add_action('admin_enqueue_scripts', 'wpps_remove_wp_open_sans', 11);
+	}
+
+	// Remove Emoji support
+	if( $config['wpps_emoji_support'] == 1 ){
+		remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+		remove_action( 'wp_print_styles', 'print_emoji_styles' );
 	}
 
 	// Change the length of the default excerpt (number of words, default is 55)

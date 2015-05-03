@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: performance, security, settings
 Requires at least: 3.0.1
 Tested up to: 4.1
-Stable tag: 0.6
+Stable tag: 0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,7 @@ This plugin provides settings to modify WordPress and improve performance and se
 * Allow SVG image uploads
 * Enable HTML5 support for forms, comment lists, images and captions.
 * Disable auto-formatting of content and/or excerpts
+* Disable emoji support and remove emoji styles and scripts
 
 **Performance**
 
@@ -81,6 +82,9 @@ Developed by [Imaginary Media](https://imaginarymedia.com.au).
 
 
 == Changelog ==
+
+= 0.7 =
+* Added new feature to remove inline the styles and scripts that make up emoji support, which was added in WP 4.2
 
 = 0.6 =
 * Fixed a range of alerts that appear in debug mode
