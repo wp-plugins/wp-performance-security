@@ -162,13 +162,13 @@ function wpps_init() {
 		remove_filter( 'mce_css', 'twentytwelve_mce_css' );
 		remove_action( 'wp_enqueue_scripts', 'twentytwelve_scripts_styles' );
 	}
-	if( $config['wpps_remove_wp_open_sans'] == 1 ){
+	if( isset( $config['wpps_remove_wp_open_sans'] ) && $config['wpps_remove_wp_open_sans'] == 1 ){
 		add_action('wp_enqueue_scripts', 'wpps_remove_wp_open_sans', 11);
 		add_action('admin_enqueue_scripts', 'wpps_remove_wp_open_sans', 11);
 	}
 
 	// Remove Emoji support
-	if( $config['wpps_emoji_support'] == 1 ){
+	if( isset( $config['wpps_emoji_support'] ) && $config['wpps_emoji_support'] == 1 ){
 		remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 		remove_action( 'wp_print_styles', 'print_emoji_styles' );
 	}
@@ -185,7 +185,7 @@ function wpps_init() {
 	function wpps_page_excerpts() {
 		add_post_type_support( 'page', 'excerpt' );
 	}
-	if( $config['wpps_page_excerpts'] == 1 ){
+	if( isset( $config['wpps_page_excerpts'] ) && $config['wpps_page_excerpts'] == 1 ){
 		add_action('init', 'wpps_page_excerpts');
 	}
 
