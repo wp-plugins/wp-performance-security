@@ -443,7 +443,7 @@ function wpps_init() {
 		$config = get_option('wpps_options');
 
 		// Default SSL option == FALSE
-		if( $config['wpps_ga_ssl'] == 1 ){
+		if( isset( $config['wpps_ga_ssl'] ) && $config['wpps_ga_ssl'] == 1 ){
 			$tracking_code_ssl = "ga('set', 'forceSSL', true);";
 		} else {
 			$tracking_code_ssl = "ga('set', 'forceSSL', false);";
@@ -480,9 +480,9 @@ function wpps_init() {
 	}
 
 	// Google Analytics insertion
-	if( $config['wpps_ga_insert'] == 1 ){
+	if( isset( $config['wpps_ga_insert'] ) && $config['wpps_ga_insert'] == 1 ){
 
-		if( $config['wpps_ga_universal'] == 1 ) {
+		if( isset( $config['wpps_ga_universal'] ) && $config['wpps_ga_universal'] == 1 ) {
 			add_action('wp_head', 'wpps_ga_universal_insert', 999);
 		} else {
 			add_action('wp_head', 'wpps_ga_classic_insert', 999);
@@ -497,7 +497,7 @@ function wpps_init() {
 		$wp_admin_bar->remove_menu('wp-logo');
 	}
 
-	if( $config['wpps_menu_wp'] == 1 ){
+	if( isset( $config['wpps_menu_wp'] ) && $config['wpps_menu_wp'] == 1 ){
 		add_action( 'wp_before_admin_bar_render', 'wpps_menu_wp' );
 	}
 
